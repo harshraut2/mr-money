@@ -1,99 +1,31 @@
-<!doctype html>
-<html lang="hi">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0f172a">
-<link rel="manifest" href="manifest.json">
-<title>MR Money</title>
-<style>
-:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#0f172a;background:#f1f5f9}
-*{box-sizing:border-box}body{margin:0;background:#f1f5f9}.app{max-width:760px;margin:auto;min-height:100vh;padding:16px 14px 90px}
-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.brand{font-size:25px;font-weight:800}.sub{font-size:12px;color:#64748b}
-.card{background:white;border-radius:18px;padding:15px;margin:10px 0;box-shadow:0 4px 18px #0000000b}
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.stat{padding:14px;border-radius:15px;background:#f8fafc}.stat b{display:block;font-size:21px;margin-top:5px}
-button{border:0;border-radius:12px;padding:11px 14px;font-weight:700;cursor:pointer} .primary{background:#0f172a;color:#fff}.green{background:#dcfce7;color:#166534}.red{background:#fee2e2;color:#991b1b}.blue{background:#dbeafe;color:#1d4ed8}
-input,select{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:11px;background:white;font-size:15px;margin:5px 0 10px}
-.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}.actions{display:flex;gap:7px;flex-wrap:wrap}
-.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:12px 0}.tabs button{background:#e2e8f0}.tabs button.active{background:#0f172a;color:white}
-.customer{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 0;border-bottom:1px solid #e2e8f0}.customer:last-child{border-bottom:0}.name{font-weight:750}.muted{color:#64748b;font-size:13px}.balance{font-weight:800}.empty{text-align:center;color:#64748b;padding:30px 10px}
-.modal{position:fixed;inset:0;background:#0008;display:none;align-items:end;justify-content:center;z-index:5}.modal.open{display:flex}.sheet{background:#fff;width:min(760px,100%);border-radius:22px 22px 0 0;padding:18px;max-height:92vh;overflow:auto}
-.photo{width:46px;height:46px;border-radius:50%;object-fit:cover;background:#e2e8f0}.topline{display:flex;align-items:center;gap:10px}
-small{color:#64748b}
-</style>
-</head>
-<body>
-<div class="app">
-<header><div><div class="brand">💰 MR Money</div><div class="sub">आपका डिजिटल हिसाब</div></div><button class="primary" onclick="openCustomer()">+ ग्राहक</button></header>
-<div class="stats">
-<div class="stat">कुल दिया<b id="totalGiven">₹0</b></div>
-<div class="stat">कुल वसूली<b id="totalReceived">₹0</b></div>
-<div class="stat">कुल बाकी<b id="totalDue">₹0</b></div>
-<div class="stat">आज का नेट<b id="todayNet">₹0</b></div>
-</div>
-<div class="tabs">
-<button class="active" onclick="tab('customers',this)">ग्राहक</button>
-<button onclick="tab('cash',this)">कमाई/खर्च</button>
-<button onclick="tab('backup',this)">Backup</button>
-</div>
-<section id="customers">
-<div class="card"><input id="search" placeholder="🔎 ग्राहक खोजें..." oninput="renderCustomers()"><div id="customerList"></div></div>
-</section>
-<section id="cash" style="display:none">
-<div class="card"><h3>आज की कमाई / खर्च</h3>
-<select id="cashType"><option value="income">कमाई</option><option value="expense">खर्च</option></select>
-<input id="cashAmount" type="number" min="0" placeholder="रकम"><input id="cashNote" placeholder="विवरण">
-<input id="cashDate" type="datetime-local"><button class="primary" onclick="saveCash()">Save</button></div>
-<div class="card"><div id="cashList"></div></div>
-</section>
-<section id="backup" style="display:none">
-<div class="card"><h3>डेटा Backup</h3><p class="muted">आपका डेटा इसी फोन में रहता है। समय-समय पर JSON backup डाउनलोड कर लें।</p>
-<div class="actions"><button class="blue" onclick="backup()">⬇️ Backup</button><button class="green" onclick="document.getElementById('restore').click()">⬆️ Restore</button><input id="restore" type="file" accept=".json" style="display:none" onchange="restore(this)"></div></div>
-</section>
-</div>
+📒 हिसाब
+आपका डिजिटल लेन-देन रजिस्टर
++ ग्राहक
+कुल लेना है
+₹0
+कुल देना है
+₹0
+आज का हिसाब
+आज की कमाई
+₹0
+आज का खर्च
+₹0
+आज तक दिया
+₹0
+आज बचा
+₹0
+＋ कमाई जोड़ें
+− खर्च जोड़ें
+हाल के रिकॉर्ड
+सभी देखें
 
-<div class="modal" id="modal"><div class="sheet">
-<div class="row"><h2 id="modalTitle">नया ग्राहक</h2><button onclick="closeModal()">✕</button></div>
-<input id="cName" placeholder="ग्राहक का नाम"><input id="cPhone" placeholder="मोबाइल नंबर" inputmode="tel">
-<input id="cPhoto" type="file" accept="image/*">
-<input id="cId" type="hidden"><button class="primary" onclick="saveCustomer()">ग्राहक Save करें</button>
-</div></div>
+ग्राहक
+रिपोर्ट
 
-<div class="modal" id="txModal"><div class="sheet">
-<div class="row"><h2 id="txTitle">लेन-देन</h2><button onclick="closeTx()">✕</button></div>
-<div id="txCustomer" class="muted"></div>
-<select id="txType"><option value="given">दिया</option><option value="received">वापस मिला</option></select>
-<input id="txAmount" type="number" min="0" placeholder="रकम">
-<input id="txDate" type="datetime-local"><input id="txNote" placeholder="विवरण">
-<button class="primary" onclick="saveTx()">Save करें</button>
-</div></div>
-
-<script>
-const KEY='mrMoney_v1';
-let db=JSON.parse(localStorage.getItem(KEY)||'{"customers":[],"cash":[],"tx":[]}');
-let currentCustomer=null;
-const money=n=>'₹'+Number(n||0).toLocaleString('en-IN');
-const nowLocal=()=>{let d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,16)};
-function persist(){localStorage.setItem(KEY,JSON.stringify(db));renderAll()}
-function tab(id,btn){document.querySelectorAll('section').forEach(x=>x.style.display='none');document.getElementById(id).style.display='block';document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');if(id==='cash')renderCash()}
-function openCustomer(c=null){document.getElementById('modal').classList.add('open');document.getElementById('modalTitle').textContent=c?'ग्राहक Edit':'नया ग्राहक';document.getElementById('cId').value=c?.id||'';document.getElementById('cName').value=c?.name||'';document.getElementById('cPhone').value=c?.phone||'';document.getElementById('cPhoto').value=''}
-function closeModal(){document.getElementById('modal').classList.remove('open')}
-function saveCustomer(){let name=cName.value.trim();if(!name){alert('नाम लिखें');return}let id=cId.value;let old=db.customers.find(x=>x.id===id);let photo=old?.photo||'';let f=cPhoto.files[0];if(f){let r=new FileReader();r.onload=()=>{finishCustomer(name,cPhone.value.trim(),r.result,id)};r.readAsDataURL(f)}else finishCustomer(name,cPhone.value.trim(),photo,id)}
-function finishCustomer(name,phone,photo,id){if(id){Object.assign(db.customers.find(x=>x.id===id),{name,phone,photo})}else db.customers.push({id:crypto.randomUUID(),name,phone,photo});closeModal();persist()}
-function openTx(id){currentCustomer=id;let c=db.customers.find(x=>x.id===id);txTitle.textContent='लेन-देन';txCustomer.textContent=c.name;txAmount.value='';txDate.value=nowLocal();txNote.value='';document.getElementById('txModal').classList.add('open')}
-function closeTx(){document.getElementById('txModal').classList.remove('open')}
-function saveTx(){let amount=Number(txAmount.value);if(!amount){alert('रकम लिखें');return}db.tx.push({id:crypto.randomUUID(),customerId:currentCustomer,type:txType.value,amount,date:txDate.value||nowLocal(),note:txNote.value.trim()});closeTx();persist()}
-function balance(id){return db.tx.filter(x=>x.customerId===id).reduce((s,x)=>s+(x.type==='given'?x.amount:-x.amount),0)}
-function renderCustomers(){let q=search.value.toLowerCase();let list=db.customers.filter(c=>(c.name+' '+c.phone).toLowerCase().includes(q));customerList.innerHTML=list.length?list.map(c=>`<div class="customer"><div class="topline">${c.photo?`<img class="photo" src="${c.photo}">`:'<div class="photo"></div>'}<div><div class="name">${esc(c.name)}</div><div class="muted">${esc(c.phone||'')}</div></div></div><div style="text-align:right"><div class="balance">${money(balance(c.id))}</div><div class="actions"><button class="green" onclick="openTx('${c.id}')">+ हिसाब</button><button onclick='openCustomer(${JSON.stringify(c)})'>Edit</button><button class="red" onclick="delCustomer('${c.id}')">Delete</button></div></div></div>`).join(''):'<div class="empty">अभी कोई ग्राहक नहीं है।<br>ऊपर + ग्राहक दबाएँ।</div>'}
-function delCustomer(id){if(confirm('ग्राहक और उसका पूरा हिसाब हटाएँ?')){db.customers=db.customers.filter(x=>x.id!==id);db.tx=db.tx.filter(x=>x.customerId!==id);persist()}}
-function saveCash(){let amount=Number(cashAmount.value);if(!amount){alert('रकम लिखें');return}db.cash.push({id:crypto.randomUUID(),type:cashType.value,amount,date:cashDate.value||nowLocal(),note:cashNote.value.trim()});cashAmount.value='';cashNote.value='';persist()}
-function renderCash(){cashList.innerHTML=db.cash.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(x=>`<div class="customer"><div><b>${x.type==='income'?'कमाई':'खर्च'}</b><div class="muted">${new Date(x.date).toLocaleString('hi-IN')} · ${esc(x.note||'')}</div></div><div class="balance">${money(x.amount)}</div></div>`).join('')||'<div class="empty">कमाई/खर्च का रिकॉर्ड नहीं है।</div>'}
-function renderAll(){let given=db.tx.filter(x=>x.type==='given').reduce((s,x)=>s+x.amount,0),rec=db.tx.filter(x=>x.type==='received').reduce((s,x)=>s+x.amount,0);totalGiven.textContent=money(given);totalReceived.textContent=money(rec);totalDue.textContent=money(given-rec);let day=new Date().toISOString().slice(0,10);let net=db.cash.filter(x=>x.date.slice(0,10)===day).reduce((s,x)=>s+(x.type==='income'?x.amount:-x.amount),0);todayNet.textContent=money(net);renderCustomers();renderCash()}
-function backup(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='mr-money-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click()}
-function restore(input){let f=input.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.customers||!x.tx||!x.cash)throw Error();db=x;persist();alert('Backup restore हो गया')}catch(e){alert('Backup file सही नहीं है')}};r.readAsText(f)}
-function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
-cashDate.value=nowLocal();renderAll();
-if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
-</script>
-</body>
-</html>
+⌂
+होम
+＋
+ग्राहक
+⚙
+सेटिंग्स
+＋
