@@ -1,31 +1,275 @@
-📒 हिसाब
-आपका डिजिटल लेन-देन रजिस्टर
-+ ग्राहक
-कुल लेना है
-₹0
-कुल देना है
-₹0
-आज का हिसाब
-आज की कमाई
-₹0
-आज का खर्च
-₹0
-आज तक दिया
-₹0
-आज बचा
-₹0
-＋ कमाई जोड़ें
-− खर्च जोड़ें
-हाल के रिकॉर्ड
-सभी देखें
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b8f55">
+<title>हिसाब - डिजिटल लेन-देन रजिस्टर</title>
+<style>
+:root{--green:#0b8f55;--green2:#e6f5ee;--red:#d33b3b;--ink:#132018;--muted:#6f7d76;--bg:#f3f7f5;--card:#fff;--line:#d9e3de;--shadow:0 8px 25px #17382a12}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans Devanagari","Noto Sans",Arial,sans-serif}
+header{background:var(--green);color:#fff;padding:22px 24px 20px;border-radius:0 0 24px 24px;box-shadow:var(--shadow)}
+header h1{margin:0;font-size:34px} header p{margin:8px 0 0;font-size:18px;opacity:.9}
+main{max-width:1050px;margin:auto;padding:18px 18px 100px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.card{background:var(--card);border-radius:24px;padding:24px;box-shadow:var(--shadow)}.label{font-size:20px;color:var(--muted)}.amount{font-size:40px;font-weight:800;margin-top:6px}.green{color:var(--green)}.red{color:var(--red)}
+.section-title{font-size:32px;margin:28px 0 14px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:14px}.btn{border:0;border-radius:20px;padding:18px;font-size:20px;font-weight:750;cursor:pointer;background:var(--green);color:#fff}.btn.secondary{background:var(--green2);color:var(--green)}.btn.red{background:#fdeaea;color:var(--red)}.btn.small{padding:11px 14px;font-size:16px;border-radius:13px}
+.search{width:100%;padding:17px 18px;border:1px solid var(--line);border-radius:18px;font-size:18px;background:#fff;margin-bottom:14px}
+.customer{background:#fff;border-radius:22px;padding:18px;margin:12px 0;box-shadow:var(--shadow);border:1px solid #e5ece8}
+.customer-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.customer h3{margin:0;font-size:23px}.phone{color:var(--muted);margin-top:4px}.due{font-size:26px;font-weight:800;color:var(--red);white-space:nowrap}.customer-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.empty{text-align:center;color:var(--muted);padding:35px 10px;font-size:19px}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:center;gap:12px;padding:10px;z-index:5}.bottom button{flex:1;max-width:240px;border:0;background:#fff;font-size:15px;padding:7px;color:#47534d}.bottom .plus{background:var(--green);color:#fff;border-radius:18px;font-size:25px}
+.modal{position:fixed;inset:0;background:#0008;display:none;align-items:flex-end;justify-content:center;z-index:10}.modal.show{display:flex}.sheet{background:#fff;width:100%;max-width:720px;max-height:92vh;overflow:auto;border-radius:26px 26px 0 0;padding:22px}.sheet h2{margin:0 0 18px;font-size:28px}.field{margin:12px 0}.field label{display:block;font-weight:700;margin-bottom:7px}.field input,.field select,.field textarea{width:100%;padding:14px;border:1px solid var(--line);border-radius:14px;font-size:17px;background:#fff}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.modal-actions{display:flex;gap:10px;margin-top:18px}.modal-actions .btn{flex:1}
+.tabs{display:flex;gap:8px;margin:12px 0}.tab{flex:1;border:0;border-radius:16px;padding:13px;background:#e4eee9;color:var(--green);font-size:17px;font-weight:750}.tab.active{background:var(--green);color:#fff}
+.record{padding:15px 0;border-bottom:1px solid var(--line)}.record:last-child{border-bottom:0}.record-top{display:flex;justify-content:space-between;gap:10px}.record strong{font-size:18px}.record small{color:var(--muted)}.note{background:#f7faf8;border-radius:12px;padding:10px;margin-top:8px}
+.toast{position:fixed;left:50%;bottom:82px;transform:translateX(-50%);background:#17231d;color:#fff;padding:12px 18px;border-radius:14px;display:none;z-index:20}
+@media(min-width:800px){.modal{align-items:center}.sheet{border-radius:26px}.bottom{display:none}}
+@media(max-width:600px){.grid{gap:12px}.card{padding:18px;border-radius:20px}.amount{font-size:31px}.label{font-size:17px}.section-title{font-size:28px}.actions{gap:10px}.btn{padding:15px 10px;font-size:17px}.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><h1>💰 हिसाब</h1><p>आपका डिजिटल लेन-देन रजिस्टर</p></header>
+<main>
+  <div class="grid">
+    <div class="card"><div class="label">कुल लेना है</div><div id="totalDue" class="amount green">₹0</div></div>
+    <div class="card"><div class="label">कुल देना है</div><div id="totalPay" class="amount red">₹0</div></div>
+  </div>
 
-ग्राहक
-रिपोर्ट
+  <h2 class="section-title">आज का हिसाब</h2>
+  <div class="grid">
+    <div class="card"><div class="label">आज की कमाई</div><div id="todayIncome" class="amount green">₹0</div></div>
+    <div class="card"><div class="label">आज का खर्च</div><div id="todayExpense" class="amount red">₹0</div></div>
+    <div class="card"><div class="label">आज तक दिया</div><div id="todayReceived" class="amount red">₹0</div></div>
+    <div class="card"><div class="label">आज बचा</div><div id="todayNet" class="amount green">₹0</div></div>
+  </div>
 
-⌂
-होम
-＋
-ग्राहक
-⚙
-सेटिंग्स
-＋
+  <div class="actions" style="margin-top:18px">
+    <button class="btn" onclick="openSale()">＋ ग्राहक को सामान दें</button>
+    <button class="btn secondary" onclick="openPayment()">💵 ग्राहक से वसूली</button>
+    <button class="btn secondary" onclick="openIncome()">＋ कमाई जोड़ें</button>
+    <button class="btn red" onclick="openExpense()">− खर्च जोड़ें</button>
+  </div>
+
+  <h2 class="section-title">हाल के रिकॉर्ड <button class="btn small secondary" style="float:right" onclick="openRecords()">सभी देखें</button></h2>
+  <div id="recent" class="card"><div class="empty">अभी कोई रिकॉर्ड नहीं है।</div></div>
+
+  <h2 class="section-title">ग्राहक <button class="btn small" style="float:right" onclick="openCustomer()">＋ ग्राहक</button></h2>
+  <input id="search" class="search" placeholder="🔎 नाम या मोबाइल से खोजें..." oninput="renderCustomers()">
+  <div id="customers"></div>
+
+  <h2 class="section-title">बैकअप और सेटिंग</h2>
+  <div class="actions">
+    <button class="btn secondary" onclick="exportData()">⬇️ बैकअप डाउनलोड</button>
+    <button class="btn secondary" onclick="document.getElementById('restore').click()">⬆️ बैकअप डालें</button>
+  </div>
+  <input id="restore" type="file" accept=".json,application/json" style="display:none" onchange="importData(event)">
+</main>
+
+<div class="bottom">
+  <button onclick="scrollTo({top:0,behavior:'smooth'})">⌂<br>होम</button>
+  <button class="plus" onclick="openSale()">＋<br>ग्राहक</button>
+  <button onclick="openSettings()">⚙️<br>सेटिंग्स</button>
+</div>
+
+<div id="modal" class="modal" onclick="if(event.target===this)closeModal()"><div class="sheet" id="sheet"></div></div>
+<div id="toast" class="toast"></div>
+
+<script>
+const KEY="hisab_app_v3";
+let db=JSON.parse(localStorage.getItem(KEY)||'{"customers":[],"records":[],"settings":{}}');
+if(!Array.isArray(db.customers))db.customers=[]; if(!Array.isArray(db.records))db.records=[];
+const $=id=>document.getElementById(id);
+const money=n=>"₹"+Number(n||0).toLocaleString("en-IN",{maximumFractionDigits:2});
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+function save(){localStorage.setItem(KEY,JSON.stringify(db));render();}
+function toast(s){$("toast").textContent=s;$("toast").style.display="block";setTimeout(()=>$("toast").style.display="none",1800)}
+function nowLocal(){const d=new Date();const z=n=>String(n).padStart(2,"0");return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}T${z(d.getHours())}:${z(d.getMinutes())}`}
+function dateLabel(v){if(!v)return "";return new Date(v).toLocaleString("hi-IN",{dateStyle:"medium",timeStyle:"short"})}
+function today(){return new Date().toISOString().slice(0,10)}
+function openModal(title,body){$("sheet").innerHTML=`<h2>${title}</h2>${body}`;$("modal").classList.add("show")}
+function closeModal(){$("modal").classList.remove("show")}
+function customerOptions(selected=""){return db.customers.map(c=>`<option value="${c.id}" ${c.id===selected?"selected":""}>${esc(c.name)}${c.phone?" - "+esc(c.phone):""}</option>`).join("")}
+
+function openCustomer(id=""){
+ const c=db.customers.find(x=>x.id===id)||{id:"",name:"",phone:"",address:""};
+ openModal(id?"ग्राहक एडिट करें":"नया ग्राहक",`
+ <div class="field"><label>ग्राहक का नाम *</label><input id="f_name" value="${esc(c.name)}" placeholder="जैसे रामलाल"></div>
+ <div class="field"><label>मोबाइल</label><input id="f_phone" inputmode="tel" value="${esc(c.phone)}"></div>
+ <div class="field"><label>पता</label><textarea id="f_address" rows="2">${esc(c.address)}</textarea></div>
+ <div class="modal-actions"><button class="btn secondary" onclick="closeModal()">रद्द</button><button class="btn" onclick="saveCustomer('${id}')">सेव करें</button></div>`);
+}
+function saveCustomer(id){
+ const name=$("f_name").value.trim();if(!name)return alert("नाम लिखें");
+ if(id){Object.assign(db.customers.find(c=>c.id===id),{name,phone:$("f_phone").value.trim(),address:$("f_address").value.trim()})}
+ else db.customers.push({id:crypto.randomUUID(),name,phone:$("f_phone").value.trim(),address:$("f_address").value.trim(),createdAt:nowLocal()});
+ save();closeModal();toast("ग्राहक सेव हो गया");
+}
+
+function openSale(customerId=""){
+ if(!db.customers.length){openCustomer();toast("पहले ग्राहक जोड़ें");return}
+ openModal("सामान बेचें",`
+ <div class="field"><label>ग्राहक</label><select id="f_customer">${customerOptions(customerId)}</select></div>
+ <div class="two">
+  <div class="field"><label>कुल सामान / बिक्री ₹</label><input id="f_total" type="number" min="0" inputmode="decimal" placeholder="500" oninput="calcSale()"></div>
+  <div class="field"><label>आज ग्राहक ने दिया ₹</label><input id="f_paid" type="number" min="0" inputmode="decimal" placeholder="300" oninput="calcSale()"></div>
+ </div>
+ <div id="saleCalc" class="note">बाकी: ₹0</div>
+ <div class="field"><label>तारीख और समय</label><input id="f_date" type="datetime-local" value="${nowLocal()}"></div>
+ <div class="field"><label>रिमाइंडर (वैकल्पिक)</label><input id="f_reminder" type="datetime-local"></div>
+ <div class="field"><label>नोट</label><input id="f_note" placeholder="जैसे दवा/सामान"></div>
+ <div class="modal-actions"><button class="btn secondary" onclick="closeModal()">रद्द</button><button class="btn" onclick="saveSale()">सेव करें</button></div>`);
+}
+function calcSale(){const t=+($("f_total")?.value||0),p=+($("f_paid")?.value||0);$("saleCalc").textContent="आज का बाकी: "+money(Math.max(0,t-p))}
+function saveSale(){
+ const cid=$("f_customer").value,t=+($("f_total").value||0),p=+($("f_paid").value||0);if(!cid||t<=0)return alert("ग्राहक और बिक्री राशि भरें");if(p>t)return alert("दिया हुआ पैसा बिक्री से ज्यादा नहीं हो सकता");
+ db.records.push({id:crypto.randomUUID(),type:"sale",customerId:cid,total:t,paid:p,date:$("f_date").value||nowLocal(),reminder:$("f_reminder").value||"",note:$("f_note").value.trim()});
+ save();closeModal();toast("बिक्री सेव हो गई");checkReminders();
+}
+
+function openPayment(customerId=""){
+ if(!db.customers.length){toast("पहले ग्राहक जोड़ें");return}
+ openModal("ग्राहक से वसूली",`
+ <div class="field"><label>ग्राहक</label><select id="f_customer">${customerOptions(customerId)}</select></div>
+ <div class="field"><label>वसूली राशि ₹</label><input id="f_amount" type="number" min="0" inputmode="decimal" placeholder="300"></div>
+ <div class="field"><label>तारीख और समय</label><input id="f_date" type="datetime-local" value="${nowLocal()}"></div>
+ <div class="field"><label>नोट</label><input id="f_note" placeholder="कैश/UPI आदि"></div>
+ <div class="modal-actions"><button class="btn secondary" onclick="closeModal()">रद्द</button><button class="btn" onclick="savePayment()">सेव करें</button></div>`);
+}
+function savePayment(){
+ const cid=$("f_customer").value,a=+($("f_amount").value||0);if(!cid||a<=0)return alert("राशि भरें");
+ const due=getCustomerDue(cid);if(a>due)return alert("वसूली बकाया से ज्यादा है");
+ db.records.push({id:crypto.randomUUID(),type:"payment",customerId:cid,amount:a,date:$("f_date").value||nowLocal(),note:$("f_note").value.trim()});
+ save();closeModal();toast("वसूली सेव हो गई");
+}
+
+function openIncome(){
+ openModal("कमाई जोड़ें",`
+ <div class="field"><label>कमाई ₹</label><input id="f_amount" type="number" min="0" inputmode="decimal"></div>
+ <div class="field"><label>तारीख और समय</label><input id="f_date" type="datetime-local" value="${nowLocal()}"></div>
+ <div class="field"><label>विवरण</label><input id="f_note" placeholder="जैसे दूसरी आय"></div>
+ <div class="modal-actions"><button class="btn secondary" onclick="closeModal()">रद्द</button><button class="btn" onclick="saveMoney('income')">सेव करें</button></div>`);
+}
+function openExpense(){
+ openModal("खर्च जोड़ें",`
+ <div class="field"><label>खर्च ₹</label><input id="f_amount" type="number" min="0" inputmode="decimal"></div>
+ <div class="field"><label>तारीख और समय</label><input id="f_date" type="datetime-local" value="${nowLocal()}"></div>
+ <div class="field"><label>विवरण</label><input id="f_note" placeholder="जैसे पेट्रोल/दुकान खर्च"></div>
+ <div class="modal-actions"><button class="btn secondary" onclick="closeModal()">रद्द</button><button class="btn" onclick="saveMoney('expense')">सेव करें</button></div>`);
+}
+function saveMoney(type){
+ const a=+($("f_amount").value||0);if(a<=0)return alert("राशि भरें");
+ db.records.push({id:crypto.randomUUID(),type,amount:a,date:$("f_date").value||nowLocal(),note:$("f_note").value.trim()});
+ save();closeModal();toast("रिकॉर्ड सेव हो गया");
+}
+
+function getCustomerDue(cid){
+ let due=0;
+ db.records.filter(r=>r.customerId===cid).forEach(r=>{
+  if(r.type==="sale")due+=Number(r.total||0)-Number(r.paid||0);
+  if(r.type==="payment")due-=Number(r.amount||0);
+ });
+ return Math.max(0,due);
+}
+function getCustomerSales(cid){return db.records.filter(r=>r.customerId===cid&&r.type==="sale").reduce((s,r)=>s+Number(r.total||0),0)}
+function getCustomerReceived(cid){return db.records.filter(r=>r.customerId===cid&&r.type==="sale").reduce((s,r)=>s+Number(r.paid||0),0)+db.records.filter(r=>r.customerId===cid&&r.type==="payment").reduce((s,r)=>s+Number(r.amount||0),0)}
+
+function render(){
+ let due=0;db.customers.forEach(c=>due+=getCustomerDue(c.id));
+ let pay=0;db.records.filter(r=>r.type==="expense").forEach(r=>pay+=+r.amount||0);
+ $("totalDue").textContent=money(due);$("totalPay").textContent=money(pay);
+ const t=today();let income=0,expense=0,received=0;
+ db.records.filter(r=>String(r.date).slice(0,10)===t).forEach(r=>{
+  if(r.type==="sale"){income+=+r.total||0;received+=+r.paid||0}
+  if(r.type==="payment")received+=+r.amount||0;
+  if(r.type==="income")income+=+r.amount||0;
+  if(r.type==="expense")expense+=+r.amount||0;
+ });
+ $("todayIncome").textContent=money(income);$("todayExpense").textContent=money(expense);$("todayReceived").textContent=money(received);$("todayNet").textContent=money(income-received*0+0-expense);
+ renderCustomers();renderRecent();
+}
+function renderCustomers(){
+ const q=($("search")?.value||"").toLowerCase();
+ const list=db.customers.filter(c=>(c.name+" "+c.phone).toLowerCase().includes(q));
+ $("customers").innerHTML=list.length?list.map(c=>`
+ <div class="customer">
+  <div class="customer-top"><div><h3>${esc(c.name)}</h3><div class="phone">${esc(c.phone||"मोबाइल नहीं")}</div></div><div class="due">${money(getCustomerDue(c.id))}</div></div>
+  <div style="margin-top:8px;color:var(--muted)">कुल बिक्री ${money(getCustomerSales(c.id))} · प्राप्त ${money(getCustomerReceived(c.id))}</div>
+  <div class="customer-actions">
+   <button class="btn small" onclick="openSale('${c.id}')">＋ बिक्री</button>
+   <button class="btn small secondary" onclick="openPayment('${c.id}')">💵 वसूली</button>
+   <button class="btn small secondary" onclick="customerHistory('${c.id}')">रिकॉर्ड</button>
+   <button class="btn small secondary" onclick="openCustomer('${c.id}')">एडिट</button>
+   <button class="btn small red" onclick="deleteCustomer('${c.id}')">हटाएँ</button>
+  </div>
+ </div>`).join(""):`<div class="card empty">अभी कोई ग्राहक नहीं है। ऊपर + ग्राहक दबाएँ।</div>`;
+}
+function renderRecent(){
+ const rs=[...db.records].sort((a,b)=>String(b.date).localeCompare(String(a.date))).slice(0,6);
+ $("recent").innerHTML=rs.length?rs.map(recordHTML).join(""):`<div class="empty">अभी कोई रिकॉर्ड नहीं है।</div>`;
+}
+function recordHTML(r){
+ const c=r.customerId?db.customers.find(x=>x.id===r.customerId):null;
+ let title=r.type==="sale"?"🛒 बिक्री":r.type==="payment"?"💵 वसूली":r.type==="income"?"＋ कमाई":"− खर्च";
+ let amt=r.type==="sale"?money(r.total):money(r.amount);
+ let detail=r.type==="sale"?`दिया ${money(r.paid)} · बाकी ${money((r.total||0)-(r.paid||0))}`:"";
+ return `<div class="record"><div class="record-top"><div><strong>${title}${c?" · "+esc(c.name):""}</strong><br><small>${dateLabel(r.date)}</small></div><strong class="${r.type==='expense'?'red':'green'}">${r.type==='expense'?'-':''}${amt}</strong></div>${detail?`<div class="note">${detail}</div>`:""}${r.note?`<div class="note">${esc(r.note)}</div>`:""}${r.reminder?`<div class="note">⏰ रिमाइंडर: ${dateLabel(r.reminder)}</div>`:""}<div class="customer-actions"><button class="btn small secondary" onclick="editRecord('${r.id}')">एडिट</button><button class="btn small red" onclick="deleteRecord('${r.id}')">हटाएँ</button></div></div>`;
+}
+function openRecords(){
+ openModal("सभी रिकॉर्ड",`<div class="tabs"><button class="tab active" onclick="showRecordList('all')">सभी</button><button class="tab" onclick="showRecordList('sale')">बिक्री</button><button class="tab" onclick="showRecordList('payment')">वसूली</button><button class="tab" onclick="showRecordList('expense')">खर्च</button></div><div id="recordList"></div>`);
+ showRecordList("all");
+}
+function showRecordList(type){
+ const rs=[...db.records].filter(r=>type==="all"||r.type===type).sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+ $("recordList").innerHTML=rs.length?rs.map(recordHTML).join(""):`<div class="empty">रिकॉर्ड नहीं मिला।</div>`;
+}
+function customerHistory(cid){
+ const c=db.customers.find(x=>x.id===cid);if(!c)return;
+ const rs=db.records.filter(r=>r.customerId===cid).sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+ openModal(esc(c.name),`<div class="card" style="box-shadow:none;border:1px solid var(--line);margin-bottom:14px"><div class="label">अभी बकाया</div><div class="amount red">${money(getCustomerDue(cid))}</div></div>${rs.length?rs.map(recordHTML).join(""):`<div class="empty">कोई रिकॉर्ड नहीं।</div>`}`);
+}
+function editRecord(id){
+ const r=db.records.find(x=>x.id===id);if(!r)return;
+ if(r.type==="sale"){
+  openModal("बिक्री एडिट करें",`
+  <div class="field"><label>ग्राहक</label><select id="f_customer">${customerOptions(r.customerId)}</select></div>
+  <div class="two"><div class="field"><label>कुल बिक्री ₹</label><input id="f_total" type="number" value="${r.total}"></div><div class="field"><label>आज दिया ₹</label><input id="f_paid" type="number" value="${r.paid}"></div></div>
+  <div class="field"><label>तारीख और समय</label><input id="f_date" type="datetime-local" value="${r.date}"></div>
+  <div class="field"><label>रिमाइंडर</label><input id="f_reminder" type="datetime-local" value="${r.reminder||""}"></div>
+  <div class="field"><label>नोट</label><input id="f_note" value="${esc(r.note||"")}"></div>
+  <div class="modal-actions"><button class="btn secondary" onclick="closeModal()">रद्द</button><button class="btn" onclick="updateRecord('${id}')">अपडेट</button></div>`);
+ }else{
+  openModal("रिकॉर्ड एडिट करें",`
+  ${r.customerId?`<div class="field"><label>ग्राहक</label><select id="f_customer">${customerOptions(r.customerId)}</select></div>`:""}
+  <div class="field"><label>राशि ₹</label><input id="f_amount" type="number" value="${r.amount||0}"></div>
+  <div class="field"><label>तारीख और समय</label><input id="f_date" type="datetime-local" value="${r.date}"></div>
+  <div class="field"><label>नोट</label><input id="f_note" value="${esc(r.note||"")}"></div>
+  <div class="modal-actions"><button class="btn secondary" onclick="closeModal()">रद्द</button><button class="btn" onclick="updateRecord('${id}')">अपडेट</button></div>`);
+ }
+}
+function updateRecord(id){
+ const r=db.records.find(x=>x.id===id);if(!r)return;
+ r.date=$("f_date").value||r.date;r.note=$("f_note").value.trim();
+ if(r.customerId&&$("f_customer"))r.customerId=$("f_customer").value;
+ if(r.type==="sale"){r.total=+($("f_total").value||0);r.paid=+($("f_paid").value||0);r.reminder=$("f_reminder").value||"";if(r.paid>r.total)return alert("दिया हुआ पैसा बिक्री से ज्यादा नहीं हो सकता")}
+ else r.amount=+($("f_amount").value||0);
+ save();closeModal();toast("रिकॉर्ड अपडेट हो गया");
+}
+function deleteRecord(id){if(confirm("यह रिकॉर्ड हटाएँ?")){db.records=db.records.filter(r=>r.id!==id);save();toast("रिकॉर्ड हट गया")}}
+function deleteCustomer(id){const c=db.customers.find(x=>x.id===id);if(confirm(`${c.name} को हटाएँ? पुराने रिकॉर्ड भी हट जाएंगे।`)){db.customers=db.customers.filter(c=>c.id!==id);db.records=db.records.filter(r=>r.customerId!==id);save();toast("ग्राहक हट गया")}}
+function openSettings(){
+ openModal("सेटिंग्स",`
+ <div class="card" style="box-shadow:none;border:1px solid var(--line)"><b>डेटा</b><p style="color:var(--muted)">आपका हिसाब इसी फोन के ब्राउज़र में सेव रहता है। समय-समय पर बैकअप डाउनलोड कर लें।</p></div>
+ <div class="modal-actions"><button class="btn secondary" onclick="exportData()">बैकअप डाउनलोड</button><button class="btn red" onclick="clearAll()">सारा डेटा मिटाएँ</button></div>`);
+}
+function exportData(){
+ const blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="hisab-backup-"+today()+".json";a.click();URL.revokeObjectURL(a.href);toast("बैकअप डाउनलोड हो गया")
+}
+function importData(e){
+ const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const x=JSON.parse(rd.result);if(!x.customers||!x.records)throw 0;db=x;save();toast("बैकअप वापस आ गया")}catch{alert("गलत बैकअप फाइल")}};rd.readAsText(f)
+}
+function clearAll(){if(confirm("सारा हिसाब मिटाना है? यह वापस नहीं आएगा।")){db={customers:[],records:[],settings:{}};save();closeModal();toast("सारा डेटा मिट गया")}}
+function checkReminders(){
+ const now=Date.now();db.records.filter(r=>r.reminder&&new Date(r.reminder).getTime()<=now+60000&&new Date(r.reminder).getTime()>now-86400000).forEach(r=>{const c=r.customerId&&db.customers.find(c=>c.id===r.customerId);toast("⏰ रिमाइंडर: "+(c?c.name:"रिकॉर्ड"))})
+}
+render();setInterval(checkReminders,60000);checkReminders();
+</script>
+</body>
+</html>
