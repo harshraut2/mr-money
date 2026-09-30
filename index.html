@@ -92,10 +92,20 @@ function recentRecords(){
  return a.length?'<div class="card">'+a.map(x=>`<div class="listrow"><div><b>${esc(x.note||x.kind)}</b><div class="small">${x.date.replace('T',' ')}</div></div><div class="right ${x.kind==='कमाई'?'green':'red'}">${x.kind==='कमाई'?'+':'−'}${money(x.amount)}</div></div>`).join('')+'</div>':'<div class="card empty">अभी कोई रिकॉर्ड नहीं है।</div>';
 }
 function renderCustomers(m){
- let q=(window.cq||'').toLowerCase(), list=db.customers.filter(c=>(c.name+' '+(c.phone||'')).toLowerCase().includes(q));
- m.innerHTML=`<div class="btnrow"><button class="btn" onclick="openCustomer()">＋ ग्राहक जोड़ें</button><button class="btn light" onclick="renderReport()">📊 रिपोर्ट</button></div>
- <div style="margin:14px 0"><input class="search" placeholder="🔎 नाम या मोबाइल खोजें" value="${esc(window.cq||'')}" oninput="window.cq=this.value;renderCustomers(document.getElementById('main'))"></div>
- ${list.length?list.map(c=>customerCard(c)).join(''):'<div class="card empty">कोई ग्राहक नहीं मिला।<br>ऊपर + ग्राहक जोड़ें दबाएँ।</div>'}`;
+  let q=(window.cq||'').trim().toLowerCase();
+  let list=db.customers.filter(c=>(c.name+' '+(c.phone||'')).toLowerCase().includes(q));
+  m.innerHTML=`<div class="btnrow"><button class="btn" onclick="openCustomer()">＋ ग्राहक जोड़ें</button><button class="btn light" onclick="renderReport()">📊 रिपोर्ट</button></div>
+  <div style="margin:14px 0"><input id="customerSearch" class="search" placeholder="🔎 नाम या मोबाइल खोजें" value="${esc(window.cq||'')}"></div>
+  <div id="customerList">${list.length?list.map(c=>customerCard(c)).join(''):'<div class="card empty">कोई ग्राहक नहीं मिला।<br>ऊपर + ग्राहक जोड़ें दबाएँ।</div>'}</div>`;
+
+  const input=document.getElementById('customerSearch');
+  input.addEventListener('input',()=>{
+    window.cq=input.value;
+    let q=input.value.trim().toLowerCase();
+    let filtered=db.customers.filter(c=>(c.name+' '+(c.phone||'')).toLowerCase().includes(q));
+    document.getElementById('customerList').innerHTML=
+      filtered.length?filtered.map(c=>customerCard(c)).join(''):'<div class="card empty">कोई ग्राहक नहीं मिला।<br>ऊपर + ग्राहक जोड़ें दबाएँ।</div>';
+  });
 }
 function customerCard(c){
  let b=customerBalance(c), paid=(c.tx||[]).filter(x=>x.type==='paid').reduce((s,x)=>s+Number(x.amount),0);
@@ -186,7 +196,12 @@ function saveNote(){db.notes=db.notes||[];db.notes.push({id:uid(),text:document.
 function backup(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='mr-money-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(a.href)}
 document.getElementById('fileRestore').onchange=e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.customers||!Array.isArray(x.customers))throw 0;db=x;save();render();toast('Restore सफल')}catch{toast('Backup फाइल सही नहीं है')}};r.readAsText(f);e.target.value=''}
 function clearAll(){if(confirm('सारा ग्राहक, कमाई और खर्च डेटा मिट जाएगा। पक्का?')){db={customers:[],income:[],expense:[]};save();state.profile=null;render();toast('सारा डेटा मिटा दिया गया')}}
-document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{state.profile=null;state.tab=b.dataset.tab;render()});
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+  state.profile=null;
+  state.tab=b.dataset.tab;
+  if(state.tab!=='customers') window.cq='';
+  render();
+});
 render();
 </script>
 </body>
