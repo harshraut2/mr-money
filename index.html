@@ -119,8 +119,92 @@ return out
 function setChart(x){chartMode=x;tbDay.classList.toggle('on',x==='day');tbWeek.classList.toggle('on',x==='week');tbMonth.classList.toggle('on',x==='month');drawChart()}
 function drawChart(){let a=periodData(),mx=Math.max(1,...a.map(x=>Math.max(x.income,x.expense)));chart.innerHTML='<div class="chart">'+a.map(x=>`<div class="barcol" title="${x.label}: कमाई ${m(x.income)}, खर्च ${m(x.expense)}"><div class="bar in" style="height:${x.income/mx*100}%"></div><div class="bar out" style="height:${x.expense/mx*100}%"></div></div>`).join('')+'</div><div class="chartlabels">'+a.map(x=>`<span>${x.label}</span>`).join('')+'</div>'}
 function report(){let a=[];db.cash.forEach(x=>a.push({date:x.date,label:x.type==='income'?'कमाई':'खर्च',amount:x.amount,type:x.type}));db.customers.forEach(c=>(c.tx||[]).forEach(t=>a.push({date:t.date,label:(t.type==='payment'?'जमा':'रुपये दिए')+' — '+c.name,amount:t.amount,type:t.type})));a.sort((x,y)=>new Date(y.date)-new Date(x.date));openM('<h2>📊 पूरी रिपोर्ट</h2>'+a.map(x=>`<div class="record"><div><b>${esc(x.label)}</b><small>${new Date(x.date).toLocaleString('hi-IN')}</small></div><b>${m(x.amount)}</b></div>`).join('')||'<div class="empty">कोई रिकॉर्ड नहीं।</div>')}
-function backup(){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(db,null,2)],{type:'application/json'}));a.download='MR-Money-Backup.json';a.click()}
-function restore(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.customers||!x.cash)throw 0;if(confirm('मौजूदा डेटा की जगह Backup डालना है?')){db=x;save();render();alert('Backup Restore हो गया')}}catch(z){alert('गलत Backup file है')}};r.readAsText(f);e.target.value=''}
+function backup(){
+let exportData={
+  app:'MR Money',
+  version:2,
+  exportedAt:new Date().toISOString(),
+  customers:db.customers,
+  cash:db.cash,
+  dailyNote:db.dailyNote||''
+};
+let a=document.createElement('a');
+a.href=URL.createObjectURL(new Blob([JSON.stringify(exportData,null,2)],{type:'application/json'}));
+a.download='MR-Money-Backup-'+dateOnly(now())+'.json';
+a.click();
+setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function restore(e){
+let f=e.target.files[0]; if(!f)return;
+let r=new FileReader();
+r.onload=()=>{
+  try{
+    let x=JSON.parse(r.result);
+
+    /* पुराने और नए दोनों MR Money backup format स्वीकार करें */
+    let source=x;
+    if(x.data && typeof x.data==='object') source=x.data;
+    if(x.backup && typeof x.backup==='object') source=x.backup;
+
+    let customers=Array.isArray(source.customers)?source.customers:[];
+    let cash=Array.isArray(source.cash)?source.cash:[];
+    let notes=Array.isArray(source.notes)?source.notes:[];
+
+    /* पुराने version में transactions/records अलग नाम से हो सकते हैं */
+    if(!customers.length && Array.isArray(source.customerList)) customers=source.customerList;
+    if(!cash.length && Array.isArray(source.records)){
+      cash=source.records.filter(z=>z && (z.type==='income'||z.type==='expense'));
+    }
+
+    if(!customers.length && !cash.length && !source.dailyNote && !source.version){
+      throw new Error('not-mr-money');
+    }
+
+    customers=customers.map(c=>({
+      id:c.id||id(),
+      name:String(c.name||c.customerName||'बिना नाम'),
+      phone:String(c.phone||c.mobile||c.number||''),
+      address:String(c.address||''),
+      opening:Number(c.opening??c.oldBalance??c.previousBalance??0)||0,
+      photo:c.photo||c.image||'',
+      tx:Array.isArray(c.tx)?c.tx:(Array.isArray(c.transactions)?c.transactions:[])
+    }));
+
+    customers.forEach(c=>{
+      c.tx=c.tx.map(t=>({
+        id:t.id||id(),
+        type:(t.type==='payment'||t.type==='sale')?t.type:
+             ((t.type==='deposit'||t.type==='paid'||t.type==='jama')?'payment':'sale'),
+        amount:Number(t.amount??t.value??t.money??0)||0,
+        date:t.date||t.datetime||t.createdAt||now(),
+        note:String(t.note||t.remark||'')
+      }));
+    });
+
+    cash=cash.map(z=>({
+      id:z.id||id(),
+      type:z.type==='expense'?'expense':'income',
+      amount:Number(z.amount??z.value??z.money??0)||0,
+      date:z.date||z.datetime||z.createdAt||now(),
+      note:String(z.note||z.remark||z.description||'')
+    }));
+
+    if(confirm('इस Backup को MR Money में Restore करना है?\\nमौजूदा डेटा Backup के डेटा से बदल जाएगा।')){
+      db={
+        customers:customers,
+        cash:cash,
+        dailyNote:String(source.dailyNote||source.note||'')
+      };
+      save(); render();
+      alert('✅ Backup सफलतापूर्वक Restore हो गया।');
+    }
+  }catch(z){
+    alert('❌ Backup पढ़ने में समस्या हुई।\\n\\nयह MR Money का सही Backup नहीं है या Backup file अधूरी/खराब है।');
+  }
+};
+r.readAsText(f);
+e.target.value='';
+}
 function saveNote(){db.dailyNote=document.getElementById('dailyNote').value;save();alert('नोट सेव हो गया')}
 function clearAll(){if(confirm('सारा डेटा हट जाएगा। पहले Backup लें। जारी रखें?')){db=fresh();save();render()}}
 render();
