@@ -3,205 +3,126 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#087f4e">
-<title>MR Money — पूरा रुपये का हिसाब</title>
+<meta name="theme-color" content="#078a50">
+<title>MR Money</title>
 <style>
-:root{--g:#087f4e;--g2:#e8f7ef;--red:#d93636;--ink:#14201b;--muted:#718078;--bg:#f4f8f6;--card:#fff;--line:#d9e5df}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans Devanagari",Arial,sans-serif}
-button,input,textarea,select{font:inherit}button{border:0;cursor:pointer}.app{max-width:900px;margin:auto;min-height:100vh;padding-bottom:92px}
-header{background:linear-gradient(135deg,#079052,#086b45);color:#fff;padding:26px 20px 24px;border-radius:0 0 26px 26px}
-h1{margin:0;font-size:34px}.sub{margin-top:6px;opacity:.9;font-size:17px}.content{padding:16px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:17px;box-shadow:0 5px 18px #173b2910}.label{color:var(--muted);font-size:17px}.money{font-size:29px;font-weight:800;margin-top:5px}.green{color:var(--g)}.red{color:var(--red)}
-.section{font-size:26px;margin:24px 2px 12px}.btnrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{padding:14px 16px;border-radius:16px;font-weight:800;background:var(--g);color:#fff}.btn.light{background:var(--g2);color:var(--g)}.btn.red{background:#ffecec;color:var(--red)}.btn.gray{background:#edf2ef;color:var(--ink)}
-.search{width:100%;padding:15px 17px;border:1px solid var(--line);border-radius:17px;background:#fff;outline:none}.customer{display:flex;align-items:center;gap:13px;padding:14px;margin:10px 0;background:#fff;border:1px solid var(--line);border-radius:19px}.avatar{width:58px;height:58px;border-radius:50%;object-fit:cover;background:#e6f5ed;display:grid;place-items:center;font-size:28px;flex:none}.grow{flex:1;min-width:0}.name{font-size:20px;font-weight:800}.small{color:var(--muted);font-size:14px}.badge{font-weight:800;font-size:18px}.empty{text-align:center;padding:35px;color:var(--muted)}
-nav{position:fixed;z-index:20;bottom:0;left:50%;transform:translateX(-50%);width:min(900px,100%);background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:9px 6px calc(9px + env(safe-area-inset-bottom));box-shadow:0 -8px 24px #173b2912}
-nav button{background:none;color:#6e7b75;padding:7px 2px;font-weight:700}nav button.active{color:var(--g)}nav .ico{font-size:24px;display:block}nav span:last-child{font-size:13px}
-.modal{position:fixed;inset:0;background:#0008;z-index:50;display:none;align-items:flex-end}.modal.show{display:flex}.sheet{background:#fff;width:100%;max-height:92vh;overflow:auto;border-radius:25px 25px 0 0;padding:22px 18px calc(28px + env(safe-area-inset-bottom))}.sheet h2{margin:0 0 17px;font-size:28px}.field{margin:12px 0}.field label{display:block;font-weight:800;margin-bottom:7px}.field input,.field textarea,.field select{width:100%;padding:14px;border:1px solid var(--line);border-radius:14px;background:#fff;outline:none}.field textarea{min-height:80px}.actions{display:flex;gap:10px;margin-top:18px}.actions .btn{flex:1}
-.profileHead{display:flex;align-items:center;gap:14px;background:#fff;border-radius:20px;padding:15px}.profileHead .avatar{width:74px;height:74px}.topbar{display:flex;align-items:center;gap:10px;margin:4px 0 16px}.back{background:#e9f2ed;border-radius:13px;padding:10px 14px;font-weight:800;color:var(--g)}.listrow{display:flex;justify-content:space-between;gap:10px;padding:13px 0;border-bottom:1px solid var(--line)}.right{text-align:right}.pill{display:inline-block;background:var(--g2);color:var(--g);border-radius:99px;padding:5px 10px;font-size:13px;font-weight:800}
-.cropbox{background:#111;border-radius:18px;padding:12px;text-align:center}.cropbox canvas{max-width:100%;max-height:300px;background:#222;border-radius:12px}.range{width:100%}
-.toast{position:fixed;z-index:100;left:50%;bottom:100px;transform:translateX(-50%);background:#14201b;color:#fff;padding:12px 17px;border-radius:99px;display:none}.toast.show{display:block}
-@media(min-width:700px){.content{padding:22px}.sheet{width:min(650px,100%);margin:auto;border-radius:25px}.modal{align-items:center;padding:20px}.grid{grid-template-columns:repeat(4,1fr)}}
+:root{--g:#078a50;--g2:#e8f7ef;--r:#d83b3b;--bg:#f4f8f6;--ink:#142019;--muted:#718078;--line:#dce8e1;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans Devanagari",Arial,sans-serif;padding-bottom:82px}button,input,textarea,select{font:inherit}button{border:0}.top{background:linear-gradient(135deg,#078f54,#087647);color:#fff;padding:32px 18px 25px;border-radius:0 0 30px 30px}.top h1{margin:0;font-size:35px}.top p{margin:5px 0 0;font-size:16px}.wrap{max-width:900px;margin:auto;padding:15px}.page{display:none}.page.active{display:block}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.card{background:var(--white);border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:0 6px 22px #123b2510}.stat small{color:var(--muted);font-size:14px}.stat b{display:block;font-size:26px;margin-top:5px}.green{color:var(--g)}.red{color:var(--r)}.title{font-size:23px;font-weight:800;margin:18px 2px 10px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:11px 0}.btn{padding:14px;border-radius:15px;font-weight:800}.primary{background:var(--g);color:#fff}.soft{background:var(--g2);color:var(--g)}.danger{background:#fdecec;color:var(--r)}.search{width:100%;padding:14px;border:2px solid var(--line);border-radius:16px;background:#fff;outline:0;margin:5px 0 12px}.list{display:grid;gap:10px}.customer{background:#fff;border:1px solid var(--line);border-radius:19px;padding:13px;display:flex;align-items:center;gap:12px}.avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;background:var(--g2);display:grid;place-items:center;font-size:25px;flex:none}.info{min-width:0;flex:1}.name{font-weight:800;font-size:18px}.sub{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bal{text-align:right}.bal small{display:block;color:var(--muted)}.bal b{font-size:19px;color:var(--r)}.zero{color:var(--g)!important}.record{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.record:last-child{border-bottom:0}.record small{display:block;color:var(--muted);font-size:12px;margin-top:3px}.empty{text-align:center;color:var(--muted);padding:25px}.chartbox{background:#fff;border:1px solid var(--line);border-radius:20px;padding:15px}.charttabs{display:flex;gap:7px;margin-bottom:12px}.charttabs button{flex:1;padding:10px;border-radius:12px;background:#edf3ef;color:#466057;font-weight:700}.charttabs button.on{background:var(--g);color:#fff}.chart{height:190px;display:flex;align-items:flex-end;gap:6px;border-bottom:1px solid var(--line);padding:8px 2px 0;overflow:hidden}.barcol{height:100%;flex:1;display:flex;align-items:flex-end;justify-content:center;gap:2px;min-width:10px}.bar{width:45%;border-radius:5px 5px 0 0;min-height:2px}.bar.in{background:#18a56b}.bar.out{background:#e05a5a}.chartlabels{display:flex;gap:6px}.chartlabels span{flex:1;text-align:center;font-size:9px;color:var(--muted);overflow:hidden}.legend{font-size:12px;color:var(--muted);margin-top:8px}.legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin:0 4px}.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(3,1fr);padding:7px 6px calc(7px + env(safe-area-inset-bottom));z-index:30}.nav{background:#fff;color:#68756e;border-radius:13px;padding:7px}.nav.on{background:var(--g2);color:var(--g);font-weight:800}.nav span{display:block;font-size:22px}.nav small{font-size:12px}.modal{display:none;position:fixed;inset:0;background:#0007;z-index:50;align-items:flex-end}.modal.show{display:flex}.sheet{background:#fff;width:100%;max-height:94vh;overflow:auto;border-radius:27px 27px 0 0;padding:20px}.sheet h2{margin:0 0 15px}.field{margin:10px 0}.field label{display:block;font-weight:800;margin-bottom:5px}.field input,.field textarea{width:100%;padding:13px;border:2px solid var(--line);border-radius:14px;outline:0;background:#fff}.row{display:flex;gap:8px}.row>*{flex:1}.modalBtns{display:flex;gap:8px;margin-top:15px}.modalBtns button{flex:1}.photo{width:105px;height:105px;border-radius:50%;object-fit:cover;display:block;margin:7px auto}.note{background:#fff9dc;border:1px solid #eadf9c;border-radius:13px;padding:10px;font-size:13px}
+@media(min-width:700px){.sheet{max-width:650px;border-radius:27px}.modal{align-items:center}}
 </style>
 </head>
 <body>
-<div class="app">
-<header><h1>💰 MR Money</h1><div class="sub">आपका पूरा रुपये का हिसाब</div></header>
-<main id="main" class="content"></main>
+<header class="top"><h1>💰 MR Money</h1><p>आपका पूरा रुपये का हिसाब</p></header>
+
+<main class="wrap">
+<section id="home" class="page active">
+<div class="grid">
+<div class="card stat"><small>कुल जमा हुआ</small><b id="totPaid" class="green">₹0</b></div>
+<div class="card stat"><small>कुल बचा है</small><b id="totDue" class="red">₹0</b></div>
+<div class="card stat"><small>आज की कमाई</small><b id="dayIncome" class="green">₹0</b></div>
+<div class="card stat"><small>आज का खर्च</small><b id="dayExpense" class="red">₹0</b></div>
+<div class="card stat"><small>आज तक जमा</small><b id="dayPaid" class="green">₹0</b></div>
+<div class="card stat"><small>आज बचा</small><b id="daySave" class="green">₹0</b></div>
 </div>
 
-<nav id="nav">
-<button data-tab="home" class="active"><span class="ico">⌂</span><span>होम</span></button>
-<button data-tab="customers"><span class="ico">👤</span><span>ग्राहक</span></button>
-<button data-tab="daily"><span class="ico">₹</span><span>दैनिक</span></button>
-<button data-tab="settings"><span class="ico">⚙️</span><span>सेटिंग्स</span></button>
-</nav>
+<div class="title">📊 कमाई और खर्च</div>
+<div class="chartbox">
+<div class="charttabs"><button id="tbDay" class="on" onclick="setChart('day')">Daily</button><button id="tbWeek" onclick="setChart('week')">Weekly</button><button id="tbMonth" onclick="setChart('month')">Monthly</button></div>
+<div id="chart"></div>
+<div class="legend"><i style="background:#18a56b"></i>कमाई &nbsp;&nbsp;<i style="background:#e05a5a"></i>खर्च</div>
+</div>
 
-<div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
-<div class="toast" id="toast"></div>
-<input id="fileRestore" type="file" accept="application/json" hidden>
+<div class="actions"><button class="btn primary" onclick="cashForm('income')">＋ कमाई जोड़ें</button><button class="btn soft" onclick="cashForm('expense')">− खर्च जोड़ें</button></div>
+<div class="card"><div class="title" style="margin-top:0">हाल के रिकॉर्ड</div><div id="recent"></div></div>
+</section>
+
+<section id="customers" class="page">
+<div class="actions"><button class="btn primary" onclick="customerForm()">＋ ग्राहक जोड़ें</button><button class="btn soft" onclick="report()">📊 रिपोर्ट</button></div>
+<input id="search" class="search" placeholder="🔎 नाम या मोबाइल खोजें..." oninput="customers()">
+<div id="customerList" class="list"></div>
+</section>
+
+<section id="settings" class="page">
+<div class="card"><div class="title" style="margin-top:0">💾 Backup / Restore</div>
+<button class="btn primary" style="width:100%;margin-bottom:8px" onclick="backup()">⬇️ Backup डाउनलोड</button>
+<button class="btn soft" style="width:100%" onclick="document.getElementById('restore').click()">⬆️ Backup Restore</button>
+<input id="restore" type="file" accept=".json" hidden onchange="restore(event)">
+</div>
+<div class="card" style="margin-top:12px"><div class="title" style="margin-top:0">📝 दैनिक नोट</div><textarea id="dailyNote" rows="5" placeholder="आज की जरूरी बात..."></textarea><button class="btn primary" style="width:100%;margin-top:8px" onclick="saveNote()">नोट सेव करें</button></div>
+<div class="card" style="margin-top:12px"><button class="btn danger" style="width:100%" onclick="clearAll()">सारा डेटा हटाएँ</button></div>
+</section>
+</main>
+
+<nav class="bottom"><button class="nav on" data-p="home" onclick="page('home')"><span>⌂</span><small>होम</small></button><button class="nav" data-p="customers" onclick="page('customers')"><span>👤</span><small>ग्राहक</small></button><button class="nav" data-p="settings" onclick="page('settings')"><span>⚙️</span><small>सेटिंग्स</small></button></nav>
+<div id="modal" class="modal" onclick="if(event.target===this)closeM()"><div id="sheet" class="sheet"></div></div>
 
 <script>
-const KEY='mrMoney_v3';
-let db=JSON.parse(localStorage.getItem(KEY)||'{"customers":[],"income":[],"expense":[]}');
-let state={tab:'home',profile:null};
-const save=()=>localStorage.setItem(KEY,JSON.stringify(db));
-const money=n=>'₹'+Number(n||0).toLocaleString('en-IN');
-const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
-function toast(t){let x=document.getElementById('toast');x.textContent=t;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),1800)}
-function openModal(html){document.getElementById('sheet').innerHTML=html;document.getElementById('modal').classList.add('show')}
-function closeModal(){document.getElementById('modal').classList.remove('show')}
-document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
-function dateInput(d=new Date()){let x=new Date(d);return new Date(x.getTime()-x.getTimezoneOffset()*60000).toISOString().slice(0,16)}
-
-function totals(){
- let receivable=db.customers.reduce((s,c)=>s+(Number(c.opening)||0)+(c.tx||[]).reduce((a,t)=>a+(t.type==='due'?Number(t.amount):-Number(t.amount)),0),0);
- let inc=db.income.reduce((s,x)=>s+Number(x.amount),0), exp=db.expense.reduce((s,x)=>s+Number(x.amount),0);
- return {receivable,inc,exp,balance:inc-exp};
-}
-function customerBalance(c){return (Number(c.opening)||0)+(c.tx||[]).reduce((s,t)=>s+(t.type==='due'?Number(t.amount):-Number(t.amount)),0)}
-function todaySum(arr){let d=new Date().toISOString().slice(0,10);return arr.filter(x=>x.date.slice(0,10)===d).reduce((s,x)=>s+Number(x.amount),0)}
+const KEY='MR_MONEY_FINAL_2026';
+let db=load(),chartMode='day',photo='';
+function fresh(){return{customers:[],cash:[],dailyNote:''}}
+function load(){try{let x=JSON.parse(localStorage.getItem(KEY));return x&&x.customers&&x.cash?x:fresh()}catch(e){return fresh()}}
+function save(){localStorage.setItem(KEY,JSON.stringify(db))}
+function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function m(n){return'₹'+Math.round(Number(n)||0).toLocaleString('en-IN')}
+function esc(s){return String(s??'').replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]))}
+function now(){let d=new Date(),p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':'+p(d.getMinutes())}
+function dateOnly(x){return x.slice(0,10)}
+function balance(c){return Number(c.opening||0)+(c.tx||[]).reduce((a,t)=>a+(t.type==='sale'?+t.amount:-(t.type==='payment'?+t.amount:0)),0)}
+function paidAll(){return db.customers.reduce((a,c)=>a+(c.tx||[]).filter(t=>t.type==='payment').reduce((s,t)=>s+ +t.amount,0),0)}
+function dueAll(){return db.customers.reduce((a,c)=>a+Math.max(0,balance(c)),0)}
+function cash(type,d){return db.cash.filter(x=>x.type===type&&dateOnly(x.date)===d).reduce((a,x)=>a+ +x.amount,0)}
+function txSum(type,d){return db.customers.reduce((a,c)=>a+(c.tx||[]).filter(t=>t.type===type&&dateOnly(t.date)===d).reduce((s,t)=>s+ +t.amount,0),0)}
+function page(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(p).classList.add('active');document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('on',x.dataset.p===p));render()}
+function openM(x){document.getElementById('sheet').innerHTML=x;document.getElementById('modal').classList.add('show')}
+function closeM(){document.getElementById('modal').classList.remove('show')}
 function render(){
- document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===state.tab));
- if(state.profile){renderProfile(state.profile);return}
- let main=document.getElementById('main');
- if(state.tab==='home') renderHome(main);
- else if(state.tab==='customers') renderCustomers(main);
- else if(state.tab==='daily') renderDaily(main);
- else renderSettings(main);
-}
-function renderHome(m){
- let t=totals(), ti=todaySum(db.income), te=todaySum(db.expense);
- m.innerHTML=`<div class="grid">
- <div class="card"><div class="label">कुल जमा हुआ</div><div class="money green">${money(db.customers.reduce((s,c)=>s+(c.tx||[]).filter(x=>x.type==='paid').reduce((a,x)=>a+Number(x.amount),0),0))}</div></div>
- <div class="card"><div class="label">कुल बचा है</div><div class="money red">${money(t.receivable)}</div></div>
- <div class="card"><div class="label">आज की कमाई</div><div class="money green">${money(ti)}</div></div>
- <div class="card"><div class="label">आज का खर्च</div><div class="money red">${money(te)}</div></div>
- </div>
- <h2 class="section">आज का हिसाब</h2>
- <div class="grid">
- <div class="card"><div class="label">आज तक दिया</div><div class="money green">${money(todayPaid())}</div></div>
- <div class="card"><div class="label">आज बचा</div><div class="money green">${money(ti-te)}</div></div>
- </div>
- <h2 class="section">त्वरित काम</h2><div class="btnrow"><button class="btn" onclick="openIncome()">＋ कमाई जोड़ें</button><button class="btn red" onclick="openExpense()">− खर्च जोड़ें</button></div>
- <h2 class="section">हाल के रिकॉर्ड</h2>${recentRecords()}`;
-}
-function todayPaid(){let d=new Date().toISOString().slice(0,10);return db.customers.flatMap(c=>c.tx||[]).filter(x=>x.type==='paid'&&x.date.slice(0,10)===d).reduce((s,x)=>s+Number(x.amount),0)}
+let d=dateOnly(now());totPaid.textContent=m(paidAll());totDue.textContent=m(dueAll());dayIncome.textContent=m(cash('income',d));dayExpense.textContent=m(cash('expense',d));dayPaid.textContent=m(txSum('payment',d));daySave.textContent=m(cash('income',d)-cash('expense',d));document.getElementById('dailyNote').value=db.dailyNote||'';recentRecords();customers();drawChart()}
 function recentRecords(){
- let a=[...db.income.map(x=>({...x,kind:'कमाई'})),...db.expense.map(x=>({...x,kind:'खर्च'}))].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,8);
- return a.length?'<div class="card">'+a.map(x=>`<div class="listrow"><div><b>${esc(x.note||x.kind)}</b><div class="small">${x.date.replace('T',' ')}</div></div><div class="right ${x.kind==='कमाई'?'green':'red'}">${x.kind==='कमाई'?'+':'−'}${money(x.amount)}</div></div>`).join('')+'</div>':'<div class="card empty">अभी कोई रिकॉर्ड नहीं है।</div>';
+let a=[];db.cash.forEach(x=>a.push({date:x.date,type:x.type,amount:x.amount,label:x.type==='income'?'कमाई':'खर्च',note:x.note}));db.customers.forEach(c=>(c.tx||[]).forEach(t=>a.push({date:t.date,type:t.type,amount:t.amount,label:(t.type==='payment'?'जमा':'रुपये दिए')+' — '+c.name,note:t.note})));a.sort((x,y)=>new Date(y.date)-new Date(x.date));
+recent.innerHTML=a.slice(0,10).map(x=>`<div class="record"><div><b>${esc(x.label)}</b><small>${new Date(x.date).toLocaleString('hi-IN')}${x.note?' · '+esc(x.note):''}</small></div><b class="${x.type==='expense'||x.type==='sale'?'red':'green'}">${x.type==='expense'||x.type==='sale'?'−':'+'}${m(x.amount)}</b></div>`).join('')||'<div class="empty">अभी कोई रिकॉर्ड नहीं।</div>'
 }
-function renderCustomers(m){
-  let q=(window.cq||'').trim().toLowerCase();
-  let list=db.customers.filter(c=>(c.name+' '+(c.phone||'')).toLowerCase().includes(q));
-  m.innerHTML=`<div class="btnrow"><button class="btn" onclick="openCustomer()">＋ ग्राहक जोड़ें</button><button class="btn light" onclick="renderReport()">📊 रिपोर्ट</button></div>
-  <div style="margin:14px 0"><input id="customerSearch" class="search" placeholder="🔎 नाम या मोबाइल खोजें" value="${esc(window.cq||'')}"></div>
-  <div id="customerList">${list.length?list.map(c=>customerCard(c)).join(''):'<div class="card empty">कोई ग्राहक नहीं मिला।<br>ऊपर + ग्राहक जोड़ें दबाएँ।</div>'}</div>`;
-
-  const input=document.getElementById('customerSearch');
-  input.addEventListener('input',()=>{
-    window.cq=input.value;
-    let q=input.value.trim().toLowerCase();
-    let filtered=db.customers.filter(c=>(c.name+' '+(c.phone||'')).toLowerCase().includes(q));
-    document.getElementById('customerList').innerHTML=
-      filtered.length?filtered.map(c=>customerCard(c)).join(''):'<div class="card empty">कोई ग्राहक नहीं मिला।<br>ऊपर + ग्राहक जोड़ें दबाएँ।</div>';
-  });
+function customers(){
+let q=(document.getElementById('search')?.value||'').toLowerCase().trim();let a=db.customers.filter(c=>(c.name+' '+(c.phone||'')).toLowerCase().includes(q));
+customerList.innerHTML=a.map(c=>{let b=balance(c),p=(c.tx||[]).filter(t=>t.type==='payment').reduce((s,t)=>s+ +t.amount,0);return`<div class="customer" onclick="profile('${c.id}')">${c.photo?`<img class="avatar" src="${c.photo}">`:'<div class="avatar">👤</div>'}<div class="info"><div class="name">${esc(c.name)}</div><div class="sub">${esc(c.phone||'मोबाइल नहीं')} · जमा ${m(p)}</div></div><div class="bal"><small>बाकी</small><b class="${b>0?'':'zero'}">${m(Math.max(0,b))}</b></div></div>`}).join('')||'<div class="card empty">कोई ग्राहक नहीं मिला।</div>'
 }
-function customerCard(c){
- let b=customerBalance(c), paid=(c.tx||[]).filter(x=>x.type==='paid').reduce((s,x)=>s+Number(x.amount),0);
- return `<div class="customer" onclick="state.profile='${c.id}';render()"><img class="avatar" src="${c.photo||''}" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="avatar" style="display:${c.photo?'none':'grid'}">👤</div><div class="grow"><div class="name">${esc(c.name)}</div><div class="small">${esc(c.phone||'मोबाइल नहीं')} · जमा ${money(paid)}</div></div><div class="right"><div class="small">बाकी</div><div class="badge ${b>0?'red':'green'}">${money(Math.max(0,b))}</div></div></div>`;
+function customerForm(cid=''){
+let c=cid?db.customers.find(x=>x.id===cid):null;photo=c?.photo||'';
+openM(`<h2>${c?'ग्राहक Edit':'नया ग्राहक'}</h2><div class="field"><label>नाम *</label><input id="cn" value="${esc(c?.name||'')}" placeholder="नाम"></div><div class="field"><label>मोबाइल नंबर</label><input id="cp" value="${esc(c?.phone||'')}" inputmode="tel" placeholder="मोबाइल"></div><div class="field"><label>पता</label><textarea id="ca" rows="3" placeholder="पूरा पता">${esc(c?.address||'')}</textarea></div><div class="field"><label>पहले से बाकी ₹</label><input id="co" type="number" min="0" value="${c?.opening??0}"></div><div class="field"><label>ग्राहक फोटो</label><img id="pv" class="photo" src="${photo||'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22105%22 height=%22105%22%3E%3Crect width=%22105%22 height=%22105%22 fill=%22%23e8f7ef%22/%3E%3Ctext x=%2252%22 y=%2265%22 text-anchor=%22middle%22 font-size=%2250%22%3E👤%3C/text%3E%3C/svg%3E'}"><input type="file" accept="image/*" onchange="photoPick(event)"></div><div class="modalBtns"><button class="btn soft" onclick="closeM()">रद्द</button><button class="btn primary" onclick="saveCustomer('${cid}')">💾 सेव करें</button></div>`)
 }
-function renderProfile(id){
- let c=db.customers.find(x=>x.id===id); if(!c){state.profile=null;return render()}
- let b=customerBalance(c), paid=(c.tx||[]).filter(x=>x.type==='paid').reduce((s,x)=>s+Number(x.amount),0), due=(c.tx||[]).filter(x=>x.type==='due').reduce((s,x)=>s+Number(x.amount),0);
- let tx=[...(c.tx||[])].sort((a,b)=>b.date.localeCompare(a.date));
- document.getElementById('main').innerHTML=`<div class="topbar"><button class="back" onclick="state.profile=null;render()">← वापस</button><div class="grow"><b>ग्राहक प्रोफाइल</b></div><button class="btn light" style="padding:9px 12px" onclick="openCustomer('${c.id}')">✏️ Edit</button></div>
- <div class="profileHead"><img class="avatar" src="${c.photo||''}" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="avatar" style="display:${c.photo?'none':'grid'}">👤</div><div class="grow"><div class="name">${esc(c.name)}</div><div class="small">${esc(c.phone||'मोबाइल नहीं')}</div><div class="small">${esc(c.address||'पता नहीं')}</div></div></div>
- <div class="grid" style="margin-top:12px"><div class="card"><div class="label">कुल बाकी</div><div class="money red">${money(Math.max(0,b))}</div></div><div class="card"><div class="label">कुल जमा</div><div class="money green">${money(paid)}</div></div><div class="card"><div class="label">पहले से बाकी</div><div class="money">${money(c.opening)}</div></div><div class="card"><div class="label">कुल उधार/जोड़ा</div><div class="money">${money(due)}</div></div></div>
- <h2 class="section">आज कितना दिया / कितना जमा किया</h2>
- <div class="btnrow"><button class="btn" onclick="openDue('${c.id}')">＋ बाकी/उधार जोड़ें</button><button class="btn light" onclick="openPaid('${c.id}')">✓ आज जमा किया</button></div>
- <h2 class="section">पूरी हिस्ट्री</h2>
- <div class="card">${tx.length?tx.map(x=>`<div class="listrow"><div><b>${x.type==='paid'?'जमा':'बाकी/उधार'}</b><div class="small">${x.date.replace('T',' ')}${x.note?' · '+esc(x.note):''}</div></div><div class="right ${x.type==='paid'?'green':'red'}">${x.type==='paid'?'−':'+'}${money(x.amount)}<div class="small">बाकी ${money(Math.max(0,x.balanceAfter??0))}</div></div></div>`).join(''):'<div class="empty">अभी कोई लेन-देन नहीं।</div>'}</div>
- <div class="btnrow" style="margin-top:12px"><button class="btn gray" onclick="printCustomer('${c.id}')">🖨️ ग्राहक हिस्ट्री दिखाएँ/प्रिंट</button><button class="btn red" onclick="deleteCustomer('${c.id}')">🗑️ ग्राहक हटाएँ</button></div>`;
+function photoPick(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{photo=r.result;pv.src=photo};r.readAsDataURL(f)}
+function saveCustomer(cid){
+let n=cn.value.trim();if(!n){alert('नाम लिखें');return}let obj={name:n,phone:cp.value.trim(),address:ca.value.trim(),opening:+co.value||0};if(cid){let c=db.customers.find(x=>x.id===cid);Object.assign(c,obj);if(photo)c.photo=photo}else db.customers.push({...obj,id:id(),photo:photo,tx:[]});photo='';save();closeM();render()
 }
-function renderDaily(m){
- let d=new Date().toISOString().slice(0,10), inc=db.income.filter(x=>x.date.slice(0,10)===d), exp=db.expense.filter(x=>x.date.slice(0,10)===d);
- m.innerHTML=`<h2 class="section" style="margin-top:0">दैनिक हिसाब</h2><div class="field"><label>दिन चुनें</label><input type="date" value="${d}" onchange="dailyDate=this.value;renderDaily(document.getElementById('main'))"></div>
- <div class="grid"><div class="card"><div class="label">कमाई</div><div class="money green">${money(inc.reduce((s,x)=>s+Number(x.amount),0))}</div></div><div class="card"><div class="label">खर्च</div><div class="money red">${money(exp.reduce((s,x)=>s+Number(x.amount),0))}</div></div></div>
- <div class="btnrow" style="margin-top:12px"><button class="btn" onclick="openIncome()">＋ कमाई जोड़ें</button><button class="btn red" onclick="openExpense()">− खर्च जोड़ें</button></div>
- <h2 class="section">उस दिन के सभी रिकॉर्ड</h2><div class="card">${[...inc.map(x=>({...x,k:'कमाई'})),...exp.map(x=>({...x,k:'खर्च'}))].sort((a,b)=>b.date.localeCompare(a.date)).map(x=>`<div class="listrow"><div><b>${x.k}</b><div class="small">${x.date.replace('T',' ')} · ${esc(x.note||'कोई नोट नहीं')}</div></div><div class="${x.k==='कमाई'?'green':'red'}">${x.k==='कमाई'?'+':'−'}${money(x.amount)}</div></div>`).join('')||'<div class="empty">इस दिन कोई रिकॉर्ड नहीं।</div>'}</div>`;
+function profile(cid){
+let c=db.customers.find(x=>x.id===cid),b=balance(c),paid=(c.tx||[]).filter(t=>t.type==='payment').reduce((s,t)=>s+ +t.amount,0),tx=[...(c.tx||[])].sort((a,b)=>new Date(b.date)-new Date(a.date));
+openM(`<h2>👤 ${esc(c.name)}</h2><div class="grid"><div class="stat"><small>पहले से बाकी</small><b>${m(c.opening)}</b></div><div class="stat"><small>कुल जमा</small><b class="green">${m(paid)}</b></div><div class="stat"><small>कुल बचा</small><b class="red">${m(Math.max(0,b))}</b></div><div class="stat"><small>आज जमा</small><b class="green">${m(txSum('payment',dateOnly(now())))}</b></div></div><div class="card" style="margin-top:10px"><div class="sub">मोबाइल</div><b>${esc(c.phone||'नहीं')}</b><div class="sub" style="margin-top:8px">पता</div><b>${esc(c.address||'नहीं')}</b></div><div class="actions"><button class="btn primary" onclick="txForm('${cid}','sale')">＋ रुपये दिए</button><button class="btn soft" onclick="txForm('${cid}','payment')">＋ पैसा जमा</button></div><div class="actions"><button class="btn soft" onclick="customerForm('${cid}')">✏️ Edit</button><button class="btn danger" onclick="delCustomer('${cid}')">🗑️ Delete</button></div><div class="title">पूरी हिस्ट्री</div>${tx.map(t=>`<div class="record"><div><b>${t.type==='payment'?'जमा किया':'रुपये दिए'} ${m(t.amount)}</b><small>${new Date(t.date).toLocaleString('hi-IN')}${t.note?' · '+esc(t.note):''}</small></div><button class="link" style="background:none;color:var(--g)" onclick="txForm('${cid}','${t.type}','${t.id}')">Edit</button></div>`).join('')||'<div class="empty">कोई रिकॉर्ड नहीं।</div>'}<div class="modalBtns"><button class="btn soft" onclick="closeM()">बंद करें</button></div>`)
 }
-function renderSettings(m){
- m.innerHTML=`<h2 class="section" style="margin-top:0">सेटिंग्स</h2>
- <div class="card"><h3>💾 Backup / Restore</h3><p class="small">आपका डेटा इसी iPhone में सेव रहता है। Backup लेकर सुरक्षित रखें।</p><div class="btnrow"><button class="btn" onclick="backup()">Backup डाउनलोड</button><button class="btn light" onclick="document.getElementById('fileRestore').click()">Restore करें</button></div></div>
- <div class="card" style="margin-top:12px"><h3>📱 दैनिक नोट्स</h3><p class="small">जरूरी काम, भुगतान या याद रखने वाली बात लिखकर सुरक्षित रखें।</p><button class="btn" onclick="openNote()">＋ नोट जोड़ें</button></div>
- <div class="card" style="margin-top:12px"><h3>🧹 डेटा प्रबंधन</h3><button class="btn red" onclick="clearAll()">सारा ऐप डेटा मिटाएँ</button></div>`;
+function txForm(cid,type,tid=''){
+let c=db.customers.find(x=>x.id===cid),t=tid?c.tx.find(x=>x.id===tid):null;
+openM(`<h2>${type==='payment'?'💵 पैसा जमा':'🧾 रुपये का हिसाब'}</h2><div class="note">उदाहरण: ₹500 रुपये का हिसाब + ₹300 जमा = ₹200 बाकी।</div><div class="field"><label>रुपये ₹</label><input id="ta" type="number" min="0" value="${t?.amount??''}" inputmode="decimal"></div><div class="field"><label>तारीख और समय</label><input id="td" type="datetime-local" value="${t?.date||now()}"></div><div class="field"><label>नोट</label><input id="tn" value="${esc(t?.note||'')}" placeholder="जरूरी जानकारी"></div><div class="modalBtns"><button class="btn soft" onclick="profile('${cid}')">रद्द</button><button class="btn primary" onclick="saveTx('${cid}','${type}','${tid}')">💾 सेव</button></div>`)
 }
-let dailyDate;
-function openIncome(){openMoney('income','＋ कमाई जोड़ें','कमाई')}
-function openExpense(){openMoney('expense','− खर्च जोड़ें','खर्च')}
-function openMoney(kind,title,label){openModal(`<h2>${title}</h2><div class="field"><label>रकम ₹</label><input id="amt" type="number" min="0" inputmode="decimal" placeholder="जैसे 500"></div><div class="field"><label>नोट</label><input id="note" placeholder="${label} किससे/किस काम की?"></div><div class="field"><label>तारीख और समय</label><input id="dt" type="datetime-local" value="${dateInput()}"></div><div class="actions"><button class="btn gray" onclick="closeModal()">रद्द</button><button class="btn" onclick="saveMoney('${kind}')">सेव करें</button></div>`)}
-function saveMoney(kind){let amount=+document.getElementById('amt').value;if(!amount)return toast('रकम डालें');db[kind].push({id:uid(),amount,note:document.getElementById('note').value,date:document.getElementById('dt').value});save();closeModal();render();toast('रिकॉर्ड सेव हो गया')}
-function openCustomer(id=''){
- let c=id?db.customers.find(x=>x.id===id):null;
- openModal(`<h2>${c?'ग्राहक Edit':'नया ग्राहक'}</h2>
- <div class="field"><label>नाम *</label><input id="cname" value="${esc(c?.name||'')}" placeholder="ग्राहक का नाम"></div>
- <div class="field"><label>मोबाइल</label><div style="display:flex;gap:8px"><input id="cphone" type="tel" value="${esc(c?.phone||'')}" placeholder="मोबाइल नंबर"><button class="btn light" style="white-space:nowrap" onclick="pickContact()">👥 Contact</button></div></div>
- <div class="field"><label>पूरा पता</label><textarea id="caddress" placeholder="गाँव/शहर/पता">${esc(c?.address||'')}</textarea></div>
- <div class="field"><label>पहले से बाकी ₹</label><input id="opening" type="number" min="0" inputmode="decimal" value="${c?.opening||0}"></div>
- <div class="field"><label>फोटो</label><div class="actions"><button class="btn light" onclick="choosePhoto()">📷 फोटो चुनें</button><button class="btn gray" onclick="cropPhoto()">✂️ Crop</button></div><div id="photoPreview">${c?.photo?`<img src="${c.photo}" style="width:90px;height:90px;border-radius:50%;object-fit:cover;margin-top:10px">`:''}</div><input id="photoInput" type="file" accept="image/*" hidden></div>
- <div class="actions"><button class="btn gray" onclick="closeModal()">रद्द</button><button class="btn" onclick="saveCustomer('${id}')">💾 सेव करें</button></div>`);
- window.editPhoto=c?.photo||''; window.pendingImage=null;
+function saveTx(cid,type,tid){
+let a=+ta.value||0;if(a<=0){alert('रकम लिखें');return}let c=db.customers.find(x=>x.id===cid),o={id:tid||id(),type,amount:a,date:td.value||now(),note:tn.value.trim()};c.tx=c.tx||[];if(tid)c.tx[c.tx.findIndex(x=>x.id===tid)]=o;else c.tx.push(o);save();profile(cid);render()
 }
-function pickContact(){
- if(navigator.contacts&&navigator.contacts.select){navigator.contacts.select(['name','tel'],{multiple:false}).then(cs=>{if(cs[0]){document.getElementById('cphone').value=cs[0].tel?.[0]||'';if(!document.getElementById('cname').value)document.getElementById('cname').value=cs[0].name?.[0]||''}}).catch(()=>{})}
- else toast('iPhone ब्राउज़र में Contact Picker उपलब्ध नहीं है—नंबर यहाँ भरें');
+function delCustomer(cid){if(confirm('इस ग्राहक की पूरी हिस्ट्री भी हट जाएगी। जारी रखें?')){db.customers=db.customers.filter(c=>c.id!==cid);save();closeM();render()}}
+function cashForm(type){
+openM(`<h2>${type==='income'?'＋ कमाई जोड़ें':'− खर्च जोड़ें'}</h2><div class="field"><label>रुपये ₹</label><input id="xa" type="number" min="0" inputmode="decimal"></div><div class="field"><label>तारीख और समय</label><input id="xd" type="datetime-local" value="${now()}"></div><div class="field"><label>विवरण</label><input id="xn" placeholder="${type==='income'?'कमाई कहाँ से आई':'खर्च किस चीज़ पर हुआ'}"></div><div class="modalBtns"><button class="btn soft" onclick="closeM()">रद्द</button><button class="btn primary" onclick="saveCash('${type}')">💾 सेव</button></div>`)
 }
-function choosePhoto(){document.getElementById('photoInput').click();document.getElementById('photoInput').onchange=e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{window.pendingImage=r.result;document.getElementById('photoPreview').innerHTML=`<img src="${r.result}" style="width:90px;height:90px;border-radius:50%;object-fit:cover;margin-top:10px">`};r.readAsDataURL(f)}}
-function cropPhoto(){
- if(!window.pendingImage&&!window.editPhoto)return toast('पहले फोटो चुनें');
- let src=window.pendingImage||window.editPhoto;
- openModal(`<h2>फोटो Crop</h2><div class="cropbox"><img id="cropImg" src="${src}" style="max-width:100%;max-height:280px;border-radius:12px"></div><div class="field"><label>Zoom</label><input id="zoom" class="range" type="range" min="1" max="2" step=".05" value="1"></div><div class="actions"><button class="btn gray" onclick="openCustomer()">वापस</button><button class="btn" onclick="applyCrop()">Crop सेव करें</button></div>`);
+function saveCash(type){let a=+xa.value||0;if(a<=0){alert('रकम लिखें');return}db.cash.push({id:id(),type,amount:a,date:xd.value||now(),note:xn.value.trim()});save();closeM();render()}
+function periodData(){
+let out=[];
+if(chartMode==='day'){for(let i=6;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let k=d.toISOString().slice(0,10);out.push({label:d.toLocaleDateString('hi-IN',{day:'2-digit',month:'2-digit'}),income:cash('income',k),expense:cash('expense',k)})}}
+if(chartMode==='week'){for(let i=7;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i*7);let end=new Date(d);end.setDate(end.getDate()+6);let inc=0,ex=0;for(let z=new Date(d);z<=end;z.setDate(z.getDate()+1)){let k=z.toISOString().slice(0,10);inc+=cash('income',k);ex+=cash('expense',k)}out.push({label:i===0?'इस सप्ताह':(i+' सप्ताह'),income:inc,expense:ex})}}
+if(chartMode==='month'){for(let i=5;i>=0;i--){let d=new Date();d.setDate(1);d.setMonth(d.getMonth()-i);let y=d.getFullYear(),mo=d.getMonth(),days=new Date(y,mo+1,0).getDate(),inc=0,ex=0;for(let j=1;j<=days;j++){let k=y+'-'+String(mo+1).padStart(2,'0')+'-'+String(j).padStart(2,'0');inc+=cash('income',k);ex+=cash('expense',k)}out.push({label:d.toLocaleDateString('hi-IN',{month:'short'}),income:inc,expense:ex})}}
+return out
 }
-function applyCrop(){
- let img=document.getElementById('cropImg'), z=+document.getElementById('zoom').value, s=Math.min(img.naturalWidth,img.naturalHeight)/z, sx=(img.naturalWidth-s)/2, sy=(img.naturalHeight-s)/2, c=document.createElement('canvas');c.width=500;c.height=500;c.getContext('2d').drawImage(img,sx,sy,s,s,0,0,500,500);window.pendingImage=c.toDataURL('image/jpeg',.82);openCustomer();setTimeout(()=>{document.getElementById('photoPreview').innerHTML=`<img src="${window.pendingImage}" style="width:90px;height:90px;border-radius:50%;object-fit:cover;margin-top:10px">`},0)
-}
-function saveCustomer(id){
- let name=document.getElementById('cname').value.trim();if(!name)return toast('नाम जरूरी है');
- if(id){let c=db.customers.find(x=>x.id===id);Object.assign(c,{name,phone:document.getElementById('cphone').value.trim(),address:document.getElementById('caddress').value.trim(),opening:+document.getElementById('opening').value||0,photo:window.pendingImage||window.editPhoto||''})}
- else db.customers.push({id:uid(),name,phone:document.getElementById('cphone').value.trim(),address:document.getElementById('caddress').value.trim(),opening:+document.getElementById('opening').value||0,photo:window.pendingImage||'',tx:[]});
- save();closeModal();render();toast(id?'ग्राहक अपडेट हो गया':'ग्राहक सेव हो गया');
-}
-function openTx(id,type){
- let c=db.customers.find(x=>x.id===id), title=type==='paid'?'आज जमा किया':'बाकी/उधार जोड़ें';
- openModal(`<h2>${title}</h2><div class="field"><label>रकम ₹</label><input id="txamt" type="number" min="0" inputmode="decimal" placeholder="जैसे 300"></div><div class="field"><label>नोट</label><input id="txnote" placeholder="जैसे आज भुगतान"></div><div class="field"><label>तारीख और समय</label><input id="txdt" type="datetime-local" value="${dateInput()}"></div><div class="actions"><button class="btn gray" onclick="closeModal()">रद्द</button><button class="btn" onclick="saveTx('${id}','${type}')">सेव करें</button></div>`);
-}
-const openPaid=id=>openTx(id,'paid'), openDue=id=>openTx(id,'due');
-function saveTx(id,type){
- let c=db.customers.find(x=>x.id===id), amount=+document.getElementById('txamt').value;if(!amount)return toast('रकम डालें');
- let before=customerBalance(c), after=before+(type==='due'?amount:-amount);
- c.tx=c.tx||[];c.tx.push({id:uid(),type,amount,note:document.getElementById('txnote').value,date:document.getElementById('txdt').value,balanceAfter:after});
- save();closeModal();render();toast('ग्राहक का रिकॉर्ड सेव हो गया');
-}
-function deleteCustomer(id){if(!confirm('इस ग्राहक और उसकी पूरी हिस्ट्री को हटाएँ?'))return;db.customers=db.customers.filter(c=>c.id!==id);save();state.profile=null;render();toast('ग्राहक हटा दिया')}
-function printCustomer(id){
- let c=db.customers.find(x=>x.id===id), b=customerBalance(c), tx=[...(c.tx||[])].sort((a,b)=>a.date.localeCompare(b.date));
- let w=window.open('','_blank');if(!w)return;w.document.write(`<html><head><title>${esc(c.name)} का हिसाब</title><style>body{font-family:Arial,sans-serif;padding:25px}table{width:100%;border-collapse:collapse}td,th{border:1px solid #ddd;padding:9px;text-align:left}.r{text-align:right}</style></head><body><h1>MR Money</h1><h2>${esc(c.name)}</h2><p>मोबाइल: ${esc(c.phone||'')}<br>पता: ${esc(c.address||'')}</p><h3>पहले से बाकी: ${money(c.opening)}</h3><h3>कुल बाकी: ${money(b)}</h3><table><tr><th>तारीख/समय</th><th>विवरण</th><th>रकम</th><th>उसके बाद बाकी</th></tr>${tx.map(x=>`<tr><td>${x.date.replace('T',' ')}</td><td>${x.type==='paid'?'जमा':'बाकी/उधार'} ${esc(x.note||'')}</td><td>${x.type==='paid'?'−':'+'}${money(x.amount)}</td><td>${money(Math.max(0,x.balanceAfter||0))}</td></tr>`).join('')}</table><script>window.print()<\/script></body></html>`);w.document.close()
-}
-function renderReport(){
- let t=totals();openModal(`<h2>📊 रिपोर्ट</h2><div class="grid"><div class="card"><div class="label">कुल ग्राहक</div><div class="money">${db.customers.length}</div></div><div class="card"><div class="label">कुल बाकी</div><div class="money red">${money(t.receivable)}</div></div><div class="card"><div class="label">कुल कमाई</div><div class="money green">${money(t.inc)}</div></div><div class="card"><div class="label">कुल खर्च</div><div class="money red">${money(t.exp)}</div></div></div><div class="card" style="margin-top:12px"><b>ग्राहक अनुसार बाकी</b>${db.customers.map(c=>`<div class="listrow"><span>${esc(c.name)}</span><b class="red">${money(Math.max(0,customerBalance(c)))}</b></div>`).join('')||'<div class="empty">कोई ग्राहक नहीं</div>'}</div>`)
-}
-function openNote(){openModal(`<h2>📝 दैनिक नोट</h2><div class="field"><label>नोट</label><textarea id="ntext" placeholder="आज की जरूरी बात..."></textarea></div><div class="actions"><button class="btn gray" onclick="closeModal()">रद्द</button><button class="btn" onclick="saveNote()">सेव</button></div>`)}
-function saveNote(){db.notes=db.notes||[];db.notes.push({id:uid(),text:document.getElementById('ntext').value,date:dateInput()});save();closeModal();toast('नोट सेव हो गया')}
-function backup(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='mr-money-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(a.href)}
-document.getElementById('fileRestore').onchange=e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.customers||!Array.isArray(x.customers))throw 0;db=x;save();render();toast('Restore सफल')}catch{toast('Backup फाइल सही नहीं है')}};r.readAsText(f);e.target.value=''}
-function clearAll(){if(confirm('सारा ग्राहक, कमाई और खर्च डेटा मिट जाएगा। पक्का?')){db={customers:[],income:[],expense:[]};save();state.profile=null;render();toast('सारा डेटा मिटा दिया गया')}}
-document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
-  state.profile=null;
-  state.tab=b.dataset.tab;
-  if(state.tab!=='customers') window.cq='';
-  render();
-});
+function setChart(x){chartMode=x;tbDay.classList.toggle('on',x==='day');tbWeek.classList.toggle('on',x==='week');tbMonth.classList.toggle('on',x==='month');drawChart()}
+function drawChart(){let a=periodData(),mx=Math.max(1,...a.map(x=>Math.max(x.income,x.expense)));chart.innerHTML='<div class="chart">'+a.map(x=>`<div class="barcol" title="${x.label}: कमाई ${m(x.income)}, खर्च ${m(x.expense)}"><div class="bar in" style="height:${x.income/mx*100}%"></div><div class="bar out" style="height:${x.expense/mx*100}%"></div></div>`).join('')+'</div><div class="chartlabels">'+a.map(x=>`<span>${x.label}</span>`).join('')+'</div>'}
+function report(){let a=[];db.cash.forEach(x=>a.push({date:x.date,label:x.type==='income'?'कमाई':'खर्च',amount:x.amount,type:x.type}));db.customers.forEach(c=>(c.tx||[]).forEach(t=>a.push({date:t.date,label:(t.type==='payment'?'जमा':'रुपये दिए')+' — '+c.name,amount:t.amount,type:t.type})));a.sort((x,y)=>new Date(y.date)-new Date(x.date));openM('<h2>📊 पूरी रिपोर्ट</h2>'+a.map(x=>`<div class="record"><div><b>${esc(x.label)}</b><small>${new Date(x.date).toLocaleString('hi-IN')}</small></div><b>${m(x.amount)}</b></div>`).join('')||'<div class="empty">कोई रिकॉर्ड नहीं।</div>')}
+function backup(){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(db,null,2)],{type:'application/json'}));a.download='MR-Money-Backup.json';a.click()}
+function restore(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.customers||!x.cash)throw 0;if(confirm('मौजूदा डेटा की जगह Backup डालना है?')){db=x;save();render();alert('Backup Restore हो गया')}}catch(z){alert('गलत Backup file है')}};r.readAsText(f);e.target.value=''}
+function saveNote(){db.dailyNote=document.getElementById('dailyNote').value;save();alert('नोट सेव हो गया')}
+function clearAll(){if(confirm('सारा डेटा हट जाएगा। पहले Backup लें। जारी रखें?')){db=fresh();save();render()}}
 render();
 </script>
 </body>
